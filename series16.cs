@@ -1,32 +1,37 @@
 using System;
+using System.Globalization;
 
 class Program
 {
     static void Main()
     {
-        Console.Write("Введите число K: ");
-        int K = int.Parse(Console.ReadLine());
+        Console.Write("Введите процент P (0 < P < 50): ");
+        string input = Console.ReadLine();
+        double P;
 
-        int lastIndex = 0; // Индекс последнего числа, большего K
-        int index = 0; // Текущий индекс
-        int number;
+        // Заменяем запятую на точку для корректного парсинга
+        input = input.Replace(',', '.');
 
-        Console.WriteLine("Введите набор целых чисел (0 для завершения):");
-        
-        while (true)
+        // Пробуем распарсить введенное значение
+        if (!double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out P) || P <= 0 || P >= 50)
         {
-            number = int.Parse(Console.ReadLine());
-            if (number == 0) // Признак завершения
-                break;
-
-            index++; // Увеличиваем индекс
-
-            if (number > K)
-            {
-                lastIndex = index; // Обновляем последний индекс
-            }
+            Console.WriteLine("Процент должен быть в диапазоне от 0 до 50.");
+            return;
         }
 
-        Console.WriteLine(lastIndex);
+        int day = 0;
+        double totalDistance = 0;
+        double currentDistance = 10; // Пробег в первый день
+
+        while (totalDistance <= 200)
+        {
+            day++;
+            totalDistance += currentDistance; // Добавляем текущий пробег
+            currentDistance *= (1 + P / 100); // Увеличиваем пробег на P%
+        }
+
+        Console.WriteLine($"Чтобы пробег превысил 200, потребуется {day} день(ей).");
     }
 }
+
+
