@@ -13,8 +13,10 @@ class Program
             return;
         }
 
-        // Вычисление суммы
-        int sum = (3 * N * (N + 1)) / 2;
+        // Вычисление суммы от N до 2N
+        int a = N;
+        int b = 2 * N;
+        int sum = ((b - a + 1) * (a + b)) / 2;
 
         Console.WriteLine($"Сумма от {N} до {2 * N} равна: {sum}");
     }
