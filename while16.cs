@@ -1,13 +1,19 @@
 using System;
+using System.Globalization;
 
 class Program
 {
     static void Main()
     {
         Console.Write("Введите процент P (0 < P < 50): ");
-        double P = double.Parse(Console.ReadLine());
+        string input = Console.ReadLine();
+        double P;
 
-        if (P <= 0 || P >= 50)
+        // Заменяем запятую на точку для корректного парсинга
+        input = input.Replace(',', '.');
+
+        // Пробуем распарсить введенное значение
+        if (!double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out P) || P <= 0 || P >= 50)
         {
             Console.WriteLine("Процент должен быть в диапазоне от 0 до 50.");
             return;
@@ -25,5 +31,8 @@ class Program
         }
 
         Console.WriteLine($"Суммарный пробег превысит 200 км после {day} дня(ей).");
+        Console.WriteLine($"Суммарный пробег: {totalDistance:F2} км."); // Выводим суммарный пробег с двумя знаками после запятой
     }
 }
+
+
